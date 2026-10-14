@@ -9,20 +9,10 @@ export async function sendContactMessage(
   values: ContactFormValues
 ): Promise<SendContactMessageResult> {
   try {
-    const response = await fetch("https://formsubmit.co/ajax/alenanojr@gmail.com", {
+    const response = await fetch("/api/contact", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        name: values.name,
-        email: values.email,
-        subject: values.subject,
-        message: values.message,
-        _subject: values.subject,
-        _captcha: "false",
-      }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
     });
 
     const data = await response.json().catch(() => null);
@@ -30,18 +20,15 @@ export async function sendContactMessage(
     if (!response.ok) {
       return {
         ok: false,
-        message: data?.error ?? data?.message ?? "Something went wrong. Please try again later.",
+        message: data?.error ?? "Something went wrong. Please try again later.",
       };
     }
 
-    return {
-      ok: true,
-      message: "Message sent successfully.",
-    };
+    return { ok: true, message: data?.message ?? "Message sent successfully." };
   } catch {
     return {
       ok: false,
-      message: "Could not send the message right now. Please try again later.",
+      message: "Could not reach the server. Please try again later.",
     };
   }
 }
