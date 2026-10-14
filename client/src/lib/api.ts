@@ -15,12 +15,24 @@ export async function sendContactMessage(
       body: JSON.stringify(values),
     });
 
-    const data = await response.json().catch(() => null);
+    const responseText = await response.text();
+    let data: { error?: string; message?: string } | null = null;
+
+    if (responseText) {
+      try {
+        data = JSON.parse(responseText) as { error?: string; message?: string };
+      } catch {
+        data = { error: responseText.slice(0, 300) };
+      }
+    }
 
     if (!response.ok) {
       return {
         ok: false,
-        message: data?.error ?? "Something went wrong. Please try again later.",
+        message:
+          data?.error ??
+          data?.message ??
+          "Something went wrong. Please try again later.",
       };
     }
 

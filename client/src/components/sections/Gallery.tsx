@@ -1,4 +1,4 @@
-import { useEffect, useRef, type MouseEvent, type PointerEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent, type PointerEvent } from "react";
 import { ImageIcon } from "lucide-react";
 import { gallery } from "@/data/gallery";
 import { SectionHeading } from "@/components/common/SectionHeading";
@@ -28,6 +28,20 @@ export function Gallery() {
   const pausedRef = useRef(false);
   const drag = useRef({ isDown: false, startX: 0, startScrollLeft: 0, moved: false });
   const loopedGallery = Array.from({ length: REPEAT_COUNT }, () => gallery).flat();
+  const [isMobile, setIsMobile] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(max-width: 767px)").matches;
+  });
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const handleChange = (event: MediaQueryListEvent) => setIsMobile(event.matches);
+
+    setIsMobile(mediaQuery.matches);
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -107,10 +121,29 @@ export function Gallery() {
     pausedRef.current = false;
   }
 
-  function handleCardClick(event: MouseEvent) {
+  function handleCardClick(event: MouseEvent<HTMLButtonElement>) {
+    const track = trackRef.current;
+    if (!track || !isMobile) {
+      if (drag.current.moved) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      return;
+    }
+
     if (drag.current.moved) {
       event.preventDefault();
       event.stopPropagation();
+      return;
+    }
+
+    const button = event.currentTarget;
+    const currentIndex = Number(button.dataset.galleryIndex ?? 0);
+    const nextIndex = ((currentIndex + 1) % gallery.length) + 1;
+    const nextButton = track.querySelector<HTMLButtonElement>(`button[data-gallery-index="${nextIndex - 1}"]`);
+
+    if (nextButton) {
+      nextButton.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
     }
   }
 
@@ -127,52 +160,57 @@ export function Gallery() {
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerLeave={handlePointerUp}
-          className="flex select-none gap-4 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:px-8"
+          className="flex select-none gap-4 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [touch-action:pan-y] [&::-webkit-scrollbar]:hidden sm:px-8"
         >
-          {loopedGallery.map((image, index) => (
-            <Dialog key={`${image.id}-${index}`}>
-              <DialogTrigger asChild>
-                <button
-                  type="button"
-                  aria-label={`View ${image.alt} enlarged`}
-                  onClickCapture={handleCardClick}
-                  className="aspect-[4/3] w-[180px] shrink-0 cursor-grab overflow-hidden rounded-2xl border border-border bg-card transition-opacity hover:opacity-90 active:cursor-grabbing sm:w-[240px]"
-                >
-                  <ImageWithFallback
-                    src={image.src}
-                    alt={image.alt}
-                    loading="lazy"
-                    draggable={false}
-                    className="h-full w-full object-cover"
-                    fallbackClassName="h-full w-full"
-                    fallback={<GalleryImageFallback src={image.src} />}
-                  />
-                </button>
-              </DialogTrigger>
-              <DialogContent className="max-w-xl border border-border bg-card p-3 shadow-xl sm:p-4">
-                <DialogHeader className="sr-only">
-                  <DialogTitle>{image.alt}</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-3">
-                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-border bg-muted">
+          {loopedGallery.map((image, index) => {
+            const galleryIndex = index % gallery.length;
+
+            return (
+              <Dialog key={`${image.id}-${index}`}>
+                <DialogTrigger asChild>
+                  <button
+                    type="button"
+                    aria-label={`View ${image.alt} enlarged`}
+                    data-gallery-index={galleryIndex}
+                    onClickCapture={handleCardClick}
+                    className="aspect-[4/3] w-[180px] shrink-0 cursor-grab overflow-hidden rounded-2xl border border-border bg-card transition-opacity hover:opacity-90 active:cursor-grabbing sm:w-[240px]"
+                  >
                     <ImageWithFallback
                       src={image.src}
                       alt={image.alt}
-                      className="h-full w-full object-cover object-center"
+                      loading="lazy"
+                      draggable={false}
+                      className="h-full w-full object-cover"
                       fallbackClassName="h-full w-full"
                       fallback={<GalleryImageFallback src={image.src} />}
                     />
-                  </div>
-                  {image.caption ? (
-                    <div className="px-1">
-                      <p className="text-sm font-medium text-foreground">{image.alt}</p>
-                      <p className="mt-1 text-xs leading-5 text-muted-foreground">{image.caption}</p>
+                  </button>
+                </DialogTrigger>
+                <DialogContent className="max-w-xl border border-border bg-card p-3 shadow-xl sm:p-4">
+                  <DialogHeader className="sr-only">
+                    <DialogTitle>{image.alt}</DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-3">
+                    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-border bg-muted">
+                      <ImageWithFallback
+                        src={image.src}
+                        alt={image.alt}
+                        className="h-full w-full object-cover object-center"
+                        fallbackClassName="h-full w-full"
+                        fallback={<GalleryImageFallback src={image.src} />}
+                      />
                     </div>
-                  ) : null}
-                </div>
-              </DialogContent>
-            </Dialog>
-          ))}
+                    {image.caption ? (
+                      <div className="px-1">
+                        <p className="text-sm font-medium text-foreground">{image.alt}</p>
+                        <p className="mt-1 text-xs leading-5 text-muted-foreground">{image.caption}</p>
+                      </div>
+                    ) : null}
+                  </div>
+                </DialogContent>
+              </Dialog>
+            );
+          })}
         </div>
       </div>
     </section>
