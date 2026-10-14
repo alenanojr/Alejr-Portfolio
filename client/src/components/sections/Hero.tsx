@@ -1,5 +1,5 @@
 import { motion, type Variants } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Download, FolderGit2, User } from "lucide-react";
 import { personalInfo } from "@/data/personalInfo";
 import { TypingText } from "@/components/common/TypingText";
@@ -25,6 +25,38 @@ const fadeUp: Variants = {
 
 export function Hero() {
   const [isHovered, setIsHovered] = useState(false);
+  const [isTapped, setIsTapped] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(pointer: coarse)");
+    const updateTouchMode = () => setIsTouchDevice(mediaQuery.matches || navigator.maxTouchPoints > 0);
+
+    updateTouchMode();
+    mediaQuery.addEventListener("change", updateTouchMode);
+
+    return () => mediaQuery.removeEventListener("change", updateTouchMode);
+  }, []);
+
+  const isSunglassesVisible = isTouchDevice ? isTapped : isHovered;
+
+  const handlePortraitPointerEnter = () => {
+    if (!isTouchDevice) {
+      setIsHovered(true);
+    }
+  };
+
+  const handlePortraitPointerLeave = () => {
+    if (!isTouchDevice) {
+      setIsHovered(false);
+    }
+  };
+
+  const handlePortraitToggle = () => {
+    if (isTouchDevice) {
+      setIsTapped((prev) => !prev);
+    }
+  };
 
   return (
     <section
@@ -128,13 +160,24 @@ export function Hero() {
                 "radial-gradient(closest-side, color-mix(in srgb, var(--accent) 20%, transparent), transparent)",
             }}
           />
-          <div
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            className="transition-transform duration-300 hover:scale-[1.01]"
+          <button
+            type="button"
+            onPointerEnter={handlePortraitPointerEnter}
+            onPointerLeave={handlePortraitPointerLeave}
+            onMouseEnter={handlePortraitPointerEnter}
+            onMouseLeave={handlePortraitPointerLeave}
+            onClick={handlePortraitToggle}
+            onKeyDown={(event) => {
+              if ((event.key === "Enter" || event.key === " ") && isTouchDevice) {
+                event.preventDefault();
+                handlePortraitToggle();
+              }
+            }}
+            aria-label="Toggle sunglasses portrait"
+            className="group rounded-full border-0 bg-transparent p-0 text-left transition-transform duration-300 hover:scale-[1.01] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
             <ImageWithFallback
-              src={isHovered ? "/images/with_sunglass.png" : "/images/without_sunglass.png"}
+              src={isSunglassesVisible ? "/images/with_sunglass.png" : "/images/without_sunglass.png"}
               alt={personalInfo.fullName}
               className="h-[320px] w-auto object-contain sm:h-[420px] lg:h-[520px]"
               fallback={
@@ -146,7 +189,7 @@ export function Hero() {
                 </div>
               }
             />
-          </div>
+          </button>
         </motion.div>
       </div>
     </section>
