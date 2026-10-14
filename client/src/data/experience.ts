@@ -1,0 +1,62 @@
+import type { ExperienceEntry } from "@/types";
+
+export const experience: ExperienceEntry[] = [
+  {
+    id: "system-administrator",
+    role: "System Administrator",
+    company: "Producers Connections Logistics Inc.",
+    address: "Km 19 W Service Rd, Parañaque, Metro Manila",
+    period: "June 2026 – Present",
+    current: true,
+    points: [
+      "Monitor system operations",
+      "Monitor device health",
+      "Monitor internet performance",
+      "Manage user accounts",
+      "Maintain operational records",
+      "Resolve technical issues",
+      "Coordinate with stakeholders",
+      "Improve system performance",
+      "Improve user experience",
+    ],
+  },
+  {
+    id: "system-developer",
+    role: "System Developer",
+    company: "Producers Connections Logistics Inc.",
+    address: "10th flr. Times Plaza Bldg. United Nations Ave cor Taft Ave, Manila",
+    period: "May 2025 – June 2026",
+    current: false,
+    points: [
+      "Developed the official company website",
+      "Built enterprise systems for procurement, bidding, fleet ledger, and truck management",
+      "Designed backend solutions",
+      "Improved workflow efficiency",
+      "Optimized business operations",
+    ],
+    systems: [
+      "Company Website",
+      "Procurement System",
+      "Bidding System",
+      "Fleet Ledger System",
+      "Truck Management System",
+    ],
+  },
+  {
+    id: "it-intern",
+    role: "IT Intern",
+    company: "Producers Connections Logistics Inc.",
+    address: "10th flr. Times Plaza Bldg. United Nations Ave cor Taft Ave, Manila",
+    period: "486 Hours",
+    current: false,
+    points: [
+      "Developed Power Automate workflows",
+      "Built Power Apps",
+      "Automated email notifications",
+      "Created electronic certificates",
+      "Managed PCL Academy",
+      "Prepared assessments",
+      "Supported employee development",
+    ],
+  },
+];
