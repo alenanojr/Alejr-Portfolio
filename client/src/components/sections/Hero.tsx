@@ -1,6 +1,6 @@
 import { motion, type Variants } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Download, FolderGit2, User } from "lucide-react";
+import { Download, FolderGit2, User, Loader2 } from "lucide-react";
 import { personalInfo } from "@/data/personalInfo";
 import { TypingText } from "@/components/common/TypingText";
 import { MagneticButton } from "@/components/common/MagneticButton";
@@ -27,6 +27,7 @@ export function Hero() {
   const [isHovered, setIsHovered] = useState(false);
   const [isTapped, setIsTapped] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(pointer: coarse)");
@@ -121,11 +122,37 @@ export function Hero() {
             className="flex flex-wrap items-center gap-4 pt-2"
           >
             <MagneticButton>
-              <Button asChild size="lg">
-                <a href={personalInfo.resumeUrl} download>
-                  <Download className="h-4 w-4" aria-hidden="true" />
-                  Download Resume
-                </a>
+              <Button
+                size="lg"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (isDownloading) return;
+                  setIsDownloading(true);
+
+                  // trigger download programmatically so we can show loading state
+                  const link = document.createElement("a");
+                  link.href = personalInfo.resumeUrl;
+                  link.download = personalInfo.resumeUrl.split("/").pop() || "resume.pdf";
+                  document.body.appendChild(link);
+                  link.click();
+                  link.remove();
+
+                  // reset loading state after short delay
+                  setTimeout(() => setIsDownloading(false), 1500);
+                }}
+                disabled={isDownloading}
+              >
+                {isDownloading ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                    Downloading...
+                  </>
+                ) : (
+                  <>
+                    <Download className="h-4 w-4" aria-hidden="true" />
+                    Download Resume
+                  </>
+                )}
               </Button>
             </MagneticButton>
 
