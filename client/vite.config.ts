@@ -38,8 +38,7 @@ export default defineConfig({
           if (!id) return;
           // bundle lucide-react icons into a single chunk
           if (id.includes('lucide-react')) return 'vendor-icons';
-          // group other small runtime chunks if desired
-          if (id.includes('node_modules')) return 'vendor';
+          // (removed generic node_modules grouping to avoid a very large `vendor` chunk)
         },
       },
     },
