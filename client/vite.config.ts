@@ -31,4 +31,17 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id) return;
+          // bundle lucide-react icons into a single chunk
+          if (id.includes('lucide-react')) return 'vendor-icons';
+          // group other small runtime chunks if desired
+          if (id.includes('node_modules')) return 'vendor';
+        },
+      },
+    },
+  },
 });
