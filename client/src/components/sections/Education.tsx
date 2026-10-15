@@ -35,7 +35,7 @@ export function Education() {
               </h3>
               <p className="text-sm font-medium text-accent">{education.degree}</p>
               <p className="text-sm text-muted-foreground">{education.period}</p>
-              <p className="mt-2 text-left text-base leading-relaxed text-muted-foreground">
+              <p className="mt-2 text-left text-base leading-relaxed text-muted-foreground sm:text-lg">
                 {education.description}
               </p>
             </GlassCard>

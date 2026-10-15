@@ -78,11 +78,11 @@ export function FloatingCharacter() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none relative mx-auto h-48 max-w-6xl sm:h-64 md:h-72"
+      className="pointer-events-none relative mx-auto h-48 max-w-6xl -translate-y-4 sm:h-64 md:h-72"
     >
       <div
         ref={outerRef}
-        className="pointer-events-auto absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        className="pointer-events-auto absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[65%]"
       >
         <motion.div
           ref={innerRef}

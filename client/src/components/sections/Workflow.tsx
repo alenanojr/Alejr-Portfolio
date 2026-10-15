@@ -44,7 +44,7 @@ export function Workflow() {
                   <Icon className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <h3 className="text-lg font-semibold text-foreground">{group.title}</h3>
-                <p className="text-left text-sm leading-relaxed text-muted-foreground">
+                <p className="text-left text-base leading-relaxed text-muted-foreground sm:text-lg">
                   {group.description}
                 </p>
                 <div className="mt-1 flex flex-wrap gap-2">
