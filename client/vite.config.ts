@@ -42,5 +42,7 @@ export default defineConfig({
         },
       },
     },
+    // Increase the warning threshold to reduce noisy bundle-size warnings in CI
+    chunkSizeWarningLimit: 1200, // in KB
   },
 });
