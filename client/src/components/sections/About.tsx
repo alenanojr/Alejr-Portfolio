@@ -7,14 +7,14 @@ import { GlassCard } from "@/components/common/GlassCard";
 
 export function About() {
   return (
-    <section id="about" className="pt-12 pb-8 sm:pt-12 sm:pb-8">
+    <section id="about" className="scroll-mt-12 pt-8 pb-8 sm:pt-12 sm:pb-8">
       <div className="container-px mx-auto max-w-6xl">
         <SectionHeading
           eyebrow="About Me"
           title="Building software and IT solutions — for teams and clients"
         />
 
-        <div className="mt-8 grid grid-cols-1 gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
+        <div className="mt-5 grid grid-cols-1 gap-8 sm:mt-8 sm:gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
           <div className="flex flex-col gap-6">
             {about.paragraphs.map((paragraph, index) => (
               <motion.p

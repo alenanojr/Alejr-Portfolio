@@ -8,11 +8,11 @@ import { Badge } from "@/components/ui/badge";
 
 export function Education() {
   return (
-    <section id="education" className="pt-12 pb-8 sm:pt-12 sm:pb-8">
+    <section id="education" className="scroll-mt-12 pt-6 pb-9 sm:pt-12 sm:pb-8">
       <div className="container-px mx-auto max-w-6xl">
         <SectionHeading eyebrow="Education" title="Academic Background" />
 
-        <div className="mt-8 grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+        <div className="mt-5 grid grid-cols-1 items-center gap-8 sm:mt-8 sm:gap-12 lg:grid-cols-2">
           <motion.div
             initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -35,7 +35,7 @@ export function Education() {
               </h3>
               <p className="text-sm font-medium text-accent">{education.degree}</p>
               <p className="text-sm text-muted-foreground">{education.period}</p>
-              <p className="mt-2 text-base leading-relaxed text-muted-foreground">
+              <p className="mt-2 text-left text-base leading-relaxed text-muted-foreground">
                 {education.description}
               </p>
             </GlassCard>

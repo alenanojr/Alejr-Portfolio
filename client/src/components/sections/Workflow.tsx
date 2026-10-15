@@ -19,7 +19,7 @@ const ICONS: Record<string, LucideIcon> = {
 
 export function Workflow() {
   return (
-    <section id="workflow" className="pt-12 pb-8 sm:pt-12 sm:pb-8">
+    <section id="workflow" className="scroll-mt-12 pt-6 pb-9 sm:pt-12 sm:pb-8">
       <div className="container-px mx-auto max-w-6xl">
         <SectionHeading
           eyebrow="Development Workflow"
@@ -27,7 +27,7 @@ export function Workflow() {
           description="The tools and habits that keep my development process organized, collaborative, and efficient."
         />
 
-        <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <div className="mt-5 grid grid-cols-1 gap-4 sm:mt-8 sm:gap-6 lg:grid-cols-2">
           {workflowGroups.map((group, index) => {
             const Icon = ICONS[group.id] ?? ClipboardList;
             return (
@@ -44,7 +44,7 @@ export function Workflow() {
                   <Icon className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <h3 className="text-lg font-semibold text-foreground">{group.title}</h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">
+                <p className="text-left text-sm leading-relaxed text-muted-foreground">
                   {group.description}
                 </p>
                 <div className="mt-1 flex flex-wrap gap-2">

@@ -48,7 +48,7 @@ export function Contact() {
   }
 
   return (
-    <section id="contact" className="pt-12 pb-8 sm:pt-12 sm:pb-8">
+    <section id="contact" className="scroll-mt-12 pt-6 pb-9 sm:pt-12 sm:pb-8">
       <div className="container-px mx-auto max-w-3xl">
         <SectionHeading
           eyebrow="Contact"
@@ -61,7 +61,7 @@ export function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="relative mt-8 overflow-hidden p-8"
+          className="relative mt-5 overflow-hidden p-5 sm:mt-8 sm:p-8"
         >
           <AnimatePresence mode="wait">
             {status === "success" ? (
@@ -92,55 +92,58 @@ export function Contact() {
                 noValidate
                 className="flex flex-col gap-6"
               >
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                  <div className="flex flex-col gap-2">
-                    <Label htmlFor="name">Name</Label>
-                    <Input id="name" placeholder="Your name" {...register("name")} />
+                <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2">
+                  <div className="flex flex-col gap-1.5 sm:gap-2">
+                    <Label htmlFor="name" className="text-xs sm:text-sm">Name</Label>
+                    <Input id="name" placeholder="Your name" className="h-10 text-sm sm:h-12 sm:text-sm" {...register("name")} />
                     {errors.name && (
-                      <p className="text-xs text-destructive">{errors.name.message}</p>
+                      <p className="text-[10px] text-destructive sm:text-xs">{errors.name.message}</p>
                     )}
                   </div>
 
-                  <div className="flex flex-col gap-2">
-                    <Label htmlFor="email">Email</Label>
+                  <div className="flex flex-col gap-1.5 sm:gap-2">
+                    <Label htmlFor="email" className="text-xs sm:text-sm">Email</Label>
                     <Input
                       id="email"
                       type="email"
                       placeholder="you@example.com"
+                      className="h-10 text-sm sm:h-12 sm:text-sm"
                       {...register("email")}
                     />
                     {errors.email && (
-                      <p className="text-xs text-destructive">{errors.email.message}</p>
+                      <p className="text-[10px] text-destructive sm:text-xs">{errors.email.message}</p>
                     )}
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-2">
-                  <Label htmlFor="subject">Subject</Label>
+                <div className="flex flex-col gap-1.5 sm:gap-2">
+                  <Label htmlFor="subject" className="text-xs sm:text-sm">Subject</Label>
                   <Input
                     id="subject"
                     placeholder="What's this about?"
+                    className="h-10 text-sm sm:h-12 sm:text-sm"
                     {...register("subject")}
                   />
                   {errors.subject && (
-                    <p className="text-xs text-destructive">{errors.subject.message}</p>
+                    <p className="text-[10px] text-destructive sm:text-xs">{errors.subject.message}</p>
                   )}
                 </div>
 
-                <div className="flex flex-col gap-2">
-                  <Label htmlFor="message">Message</Label>
+                <div className="flex flex-col gap-1.5 sm:gap-2">
+                  <Label htmlFor="message" className="text-xs sm:text-sm">Message</Label>
                   <Textarea
                     id="message"
                     placeholder="Tell me about the opportunity or project..."
+                    className="min-h-[110px] text-sm sm:min-h-22 sm:text-sm"
                     {...register("message")}
                   />
                   {errors.message && (
-                    <p className="text-xs text-destructive">{errors.message.message}</p>
+                    <p className="text-[10px] text-destructive sm:text-xs">{errors.message.message}</p>
                   )}
                 </div>
 
                 <MagneticButton className="self-start">
-                  <Button type="submit" size="lg" disabled={isSubmitting}>
+                  <Button type="submit" size="lg" disabled={isSubmitting} className="h-10 px-4 text-sm sm:h-11 sm:px-6 sm:text-base">
                     {isSubmitting ? (
                       <>
                         <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />

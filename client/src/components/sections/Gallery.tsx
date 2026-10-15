@@ -148,12 +148,12 @@ export function Gallery() {
   }
 
   return (
-    <section id="gallery" className="overflow-hidden pt-12 pb-8 sm:pt-12 sm:pb-0">
+    <section id="gallery" className="scroll-mt-12 overflow-hidden pt-6 pb-8 sm:pt-12 sm:pb-0">
       <div className="container-px mx-auto max-w-6xl">
         <SectionHeading eyebrow="Gallery" title="A Look at My Activities" />
       </div>
 
-      <div className="relative mt-8 [mask-image:linear-gradient(to_right,transparent,black_25%,black_75%,transparent)]">
+      <div className="relative mt-5 [mask-image:linear-gradient(to_right,transparent,black_25%,black_75%,transparent)] sm:mt-8">
         <div
           ref={trackRef}
           onPointerDown={handlePointerDown}

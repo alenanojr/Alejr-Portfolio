@@ -28,7 +28,7 @@ const ICONS: Record<string, LucideIcon> = {
 
 export function Skills() {
   return (
-    <section id="skills" className="pt-12 pb-1 sm:pt-12 sm:pb-1">
+    <section id="skills" className="scroll-mt-12 pt-6 pb-6 sm:pt-12 sm:pb-1">
       <div className="container-px mx-auto max-w-6xl">
         <SectionHeading
           eyebrow="Skills"
@@ -36,7 +36,7 @@ export function Skills() {
           description="A well-rounded toolkit spanning development, infrastructure, and everyday productivity."
         />
 
-        <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-5 grid grid-cols-1 gap-4 sm:mt-8 sm:gap-6 lg:grid-cols-3">
           {skillCategories.map((category, index) => (
             <SkillCategoryCard
               key={category.id}

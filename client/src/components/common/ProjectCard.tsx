@@ -45,7 +45,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           {project.category}
         </span>
         <h3 className="text-lg font-semibold text-foreground">{project.title}</h3>
-        <p className="text-sm leading-relaxed text-muted-foreground">
+        <p className="text-left text-sm leading-relaxed text-muted-foreground">
           {project.description}
         </p>
 

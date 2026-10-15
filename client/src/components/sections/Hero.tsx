@@ -108,7 +108,7 @@ export function Hero() {
             initial="hidden"
             animate="show"
             custom={0.3}
-            className="max-w-xl text-sm leading-relaxed text-justify text-muted-foreground sm:text-lg"
+            className="max-w-xl text-left text-base leading-relaxed text-muted-foreground sm:text-lg"
           >
             {personalInfo.introduction}
           </motion.p>
